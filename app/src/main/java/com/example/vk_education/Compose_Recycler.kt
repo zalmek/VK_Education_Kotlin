@@ -24,7 +24,7 @@ import java.nio.file.WatchEvent
 
 
 @Composable
-fun ImageListItem(image: Image) {
+fun ImageListItem(image: Image, modifier: Modifier = Modifier) {
     Card(
         modifier = Modifier
             .background(color = if (image.number%2==1) Color.Red else Color.Cyan).padding(horizontal = 8.dp, vertical = 8.dp)
