@@ -13,9 +13,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.Constraints
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.times
 import androidx.lifecycle.viewmodel.compose.viewModel
 
 
@@ -51,7 +49,6 @@ fun ImageListContent(list: List<Image>, onClick1: () -> Unit, modifier: Modifier
         Row(
             modifier =Modifier.align(Alignment.CenterHorizontally).then(modifier)
         ) {
-            // val images :MutableList<Image> by remember { mutableStateOf(provider.imagelist) }
             LazyColumn(
                 contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
             ) {

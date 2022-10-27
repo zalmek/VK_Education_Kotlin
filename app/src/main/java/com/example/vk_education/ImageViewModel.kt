@@ -11,5 +11,4 @@ class ImageViewModel : ViewModel() {
     val images2 = mutableListOf<Image>(Image(0)).toMutableStateList()
     val images3 = mutableListOf<Image>(Image(0)).toMutableStateList()
     val images4 = mutableListOf<Image>(Image(0)).toMutableStateList()
-    val orientation : Int = Configuration.ORIENTATION_PORTRAIT
 }
