@@ -33,7 +33,7 @@ fun ComposeScreen(orientation: Int, viewModel: ImageViewModel = viewModel(), mod
     if (orientation==Configuration.ORIENTATION_LANDSCAPE){
         modifier1=Modifier.fillMaxHeight(0.8f).padding(start = 40.dp, end = 40.dp)
     }
-    Row() {
+    Row {
         ImageListContent(list = viewModel.images1, onClick1 = {Unit.apply {viewModel.images1.add(Image(viewModel.images1.size))}},modifier1)
         ImageListContent(list = viewModel.images2, onClick1 = {Unit.apply {viewModel.images2.add(Image(viewModel.images2.size))}},modifier1)
         ImageListContent(list = viewModel.images3, onClick1 = {Unit.apply {viewModel.images3.add(Image(viewModel.images3.size))}},modifier1)
@@ -45,7 +45,7 @@ fun ComposeScreen(orientation: Int, viewModel: ImageViewModel = viewModel(), mod
 }
 @Composable
 fun ImageListContent(list: List<Image>, onClick1: () -> Unit, modifier: Modifier=Modifier) {
-    Column() {
+    Column {
         Row(
             modifier =Modifier.align(Alignment.CenterHorizontally).then(modifier)
         ) {
