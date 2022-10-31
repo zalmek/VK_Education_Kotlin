@@ -40,7 +40,7 @@ fun ComposeScreen(
             .fillMaxHeight(0.8f)
             .padding(start = 40.dp, end = 40.dp)
     }
-    Column() {
+    Column(modifier = Modifier.fillMaxHeight().fillMaxWidth()) {
         Row {
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
                 for(i in 0..2){
