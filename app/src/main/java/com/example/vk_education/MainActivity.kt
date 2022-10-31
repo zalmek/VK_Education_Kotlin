@@ -43,39 +43,23 @@ fun ComposeScreen(
     Column() {
         Row {
             if (orientation == Configuration.ORIENTATION_PORTRAIT) {
-                ImageListContent(
-                    list = viewModel.numbers.filterIndexed { index, number -> number.number % 3 == 1 },
-                    modifier1
-                )
-                ImageListContent(
-                    list = viewModel.numbers.filterIndexed { index, number -> number.number % 3 == 2 },
-                    modifier1
-                )
-                ImageListContent(
-                    list = viewModel.numbers.filterIndexed { index, number -> number.number % 3 == 0 },
-                    modifier1
-                )
+                for(i in 0..2){
+                    ImageListContent(
+                        list = viewModel.numbers.filterIndexed { index, number -> number.number % 3 == i },
+                        modifier1
+                    )
+                }
             } else if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                ImageListContent(
-                    list = viewModel.numbers.filterIndexed { index, number -> number.number % 4 == 1 },
-                    modifier1
-                )
-                ImageListContent(
-                    list = viewModel.numbers.filterIndexed { index, number -> number.number % 4 == 2 },
-                    modifier1
-                )
-                ImageListContent(
-                    list = viewModel.numbers.filterIndexed { index, number -> number.number % 4 == 3 },
-                    modifier1
-                )
-                ImageListContent(
-                    list = viewModel.numbers.filterIndexed { index, number -> number.number % 4 == 0 },
-                    modifier1
-                )
+                for(i in 0..3){
+                    ImageListContent(
+                        list = viewModel.numbers.filterIndexed { index, number -> number.number % 4 == i },
+                        modifier1
+                    )
+                }
             }
         }
         Button(
-                onClick = { Unit.apply { viewModel.numbers.add(Number(viewModel.numbers.size+1)) } },
+                onClick = { Unit.apply { viewModel.numbers.add(Number(viewModel.numbers.size)) } },
                 modifier = Modifier
                     .height(
                         50.dp

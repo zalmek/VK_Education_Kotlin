@@ -5,5 +5,5 @@ import androidx.lifecycle.ViewModel
 
 
 class NumberViewModel : ViewModel() {
-    var numbers = mutableListOf(Number(1)).toMutableStateList()
+    var numbers = mutableListOf(Number(0)).toMutableStateList()
 }
