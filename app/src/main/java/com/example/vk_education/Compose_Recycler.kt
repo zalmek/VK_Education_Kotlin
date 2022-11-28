@@ -1,39 +1,56 @@
 package com.example.vk_education
 
-import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.shape.CornerSize
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Card
-import androidx.compose.material3.MaterialTheme.typography
-import androidx.compose.material3.Text
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.unit.dp
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.example.vk_education.Model.Gif
 
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-fun ImageListItem(number: Number, modifier: Modifier = Modifier) {
-    Card(
-        modifier = Modifier
-            .background(color = if (number.number%2==1) Color.Red else Color.Cyan).padding(horizontal = 8.dp, vertical = 8.dp)
-         ,
-        shape = RoundedCornerShape(corner = CornerSize(4.dp))
-    )
-    {
-        Row {
-            Column(
-                modifier = Modifier
-                    .background(color = if (number.number%2==1) Color.Red else Color.Cyan)
-                    .padding(16.dp)
-                    .width(45.dp)
-                    .height(45.dp)
-                    .align(Alignment.CenterVertically)
-            ) {
-                Text(modifier = Modifier.align(Alignment.CenterHorizontally),text = number.number.toString(), style = typography.headlineSmall,)
-            }
+fun ImageListItem(gif: Gif, modifier: Modifier = Modifier) {
+        val circularProgressDrawable = CircularProgressDrawable(LocalView.current.context)
+        circularProgressDrawable.strokeWidth = 5f
+        circularProgressDrawable.centerRadius = 30f
+        circularProgressDrawable.start()
+        GlideImage(
+            model = String.format(
+                "https://media3.giphy.com/media/%s/giphy.gif?cid=afe55739p8qr2uvjzz1onniq0lp371vj1o338jz2h5ohru06&rid=giphy.gif&ct=g",
+                gif.id
+            ),
+            contentDescription = "No description",
+            modifier = Modifier
+                .padding(8.dp)
+                .fillMaxSize(),
+        )
+        {
+            it.placeholder(circularProgressDrawable).error((R.drawable.ic_baseline_error_24))
         }
-    }
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
