@@ -10,7 +10,7 @@ import retrofit2.http.Query
 
 interface GifApi {
     @GET("v1/gifs/search")
-    suspend fun getGifs(@Query("api_key") api_key: String, @Query("q") query: String): Data
+    suspend fun getGifs(@Query("api_key") api_key: String, @Query("q") query: String,@Query("limit") limit:String,@Query("offset") offset:String): Data
 
     companion object {
         fun create(): GifApi {
