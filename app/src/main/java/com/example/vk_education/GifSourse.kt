@@ -19,7 +19,7 @@ class GifSourse : PagingSource<Int, Gif>() {
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, Gif> {
         return try {
             val nextPage = params.key ?: 25
-            val userList = GifProvider(GifApi.create()).getGifs("gZ3s6VZmS8vgIrMc1yPvEg12k3Yzdo1P","bat", offset = nextPage.toString())
+            val userList = GifProvider(GifApi.create()).getGifs("gZ3s6VZmS8vgIrMc1yPvEg12k3Yzdo1P","dog", offset = nextPage.toString())
             LoadResult.Page(
                 data = userList,
                 prevKey = if (nextPage == 25) null else nextPage - 25,

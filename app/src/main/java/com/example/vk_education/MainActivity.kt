@@ -5,28 +5,29 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.navArgument
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
 import androidx.paging.compose.collectAsLazyPagingItems
-import androidx.paging.compose.items
+import androidx.swiperefreshlayout.widget.CircularProgressDrawable
 import com.example.vk_education.Model.Gif
 
 class MainActivity : ComponentActivity() {
@@ -34,7 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             val viewModel: GifViewModel = viewModel<GifViewModel>()
-            ComposeScreen(orientation = resources.configuration.orientation, viewModel = viewModel)
+            ComposeScreen(orientation = LocalContext.current.resources.configuration.orientation, viewModel = viewModel)
         }
     }
 
@@ -73,36 +74,51 @@ fun ComposeGrid(
 ) {
 
     val gifListItems: LazyPagingItems<Gif> = viewModel.gif.collectAsLazyPagingItems()
-    LazyColumn(modifier = Modifier
-        .fillMaxHeight()
-        .fillMaxWidth()) {
-        items(items = gifListItems) { item ->
-            Box(
-                Modifier
-                    .background(Color.DarkGray)
-                    .clickable
-                    {
-                        if (item != null) {
-                            saveGif(item.id)
-                        }
-                    }
-            ){
-                ImageListItem(gif = item!!.id)
-            }
-        }
-    }
-//    LazyVerticalGrid(columns = GridCells.Fixed(columns), modifier = modifier) {
-//        items(items = gifListItems) { item: Gif ->
-//            ImageListItem(gif = item)
+//    LazyColumn(modifier = Modifier
+//        .fillMaxHeight()
+//        .fillMaxWidth()) {
+//        items(items = gifListItems) { item ->
+//            Box(
+//                Modifier
+//                    .background(Color.DarkGray)
+//                    .clickable
+//                    {
+//                        if (item != null) {
+//                            saveGif(item.id)
+//                        }
+//                    }
+//            ){
+//                ImageListItem(gif = item!!.id)
+//            }
 //        }
 //    }
+    LazyVerticalGrid(columns = GridCells.Fixed(columns), modifier = modifier) {
+        items(items = gifListItems) { item: Gif? ->
+            ImageListItem(gif = item!!.id)
+        }
+    }
 
     gifListItems.apply {
         when {
-            loadState.refresh is LoadState.Loading -> {
+            (loadState.refresh is LoadState.Loading && itemCount == 0) -> {
+                val context = LocalView.current.context
+                val circularProgressDrawable = remember(context) {
+                    CircularProgressDrawable(context).apply {
+                        strokeWidth = 5f
+                        centerRadius = 30f
+                        start()
+                    }
+                }
             }
             loadState.append is LoadState.Loading -> {
-
+                val context = LocalView.current.context
+                val circularProgressDrawable = remember(context) {
+                    CircularProgressDrawable(context).apply {
+                        strokeWidth = 5f
+                        centerRadius = 30f
+                        start()
+                    }
+                }
             }
             loadState.append is LoadState.Error || itemCount == 0 -> {
                 Image(
@@ -114,6 +130,7 @@ fun ComposeGrid(
                             refresh()
                         })
             }
+
         }
     }
 }
@@ -168,8 +185,15 @@ fun ComposeScreen(
 @Composable
 fun ImageScreen(
     gif: String,
-    resetGif: ()->Unit,
-    modifier: Modifier = Modifier.clickable { resetGif() }
+    resetGif: () -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    ImageListItem(gif = gif,modifier = Modifier.clickable { resetGif() })
+    Column() {
+        ImageListItem(gif = gif,modifier = Modifier.fillMaxHeight(0.8f))
+        Button(onClick = resetGif, modifier = Modifier
+            .padding(15.dp)
+            .align(Alignment.CenterHorizontally)) {
+            Text(text = "Return")
+        }
+    }
 }
